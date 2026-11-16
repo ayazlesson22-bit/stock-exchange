@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Clean, minimalist, real-time portal tracking daily global stock exchanges, benchmark indices, and national regulatory announcements.">
+  <title>GlobeStock | World Stock Exchanges & National Announcements</title>
+  
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Top Real-Time Ticker Bar -->
+  <div class="ticker-bar-container" role="region" aria-label="Global Stock Ticker">
+    <div class="ticker-badge-lead">
+      <span class="live-indicator-dot"></span>
+      <span>Live World Markets</span>
+    </div>
+    <div class="ticker-marquee">
+      <div class="ticker-track" id="tickerTrack">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Application Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-group" aria-label="GlobeStock Home">
+        <img src="assets/favicon.svg" alt="GlobeStock Logo" class="brand-logo-img">
+        <div class="brand-text">
+          <h1>GlobeStock <span class="brand-tag">Terminal</span></h1>
+          <p>Global Exchanges & Official Announcements</p>
+        </div>
+      </a>
+
+      <!-- Global Financial Center Clocks -->
+      <div class="world-clocks" aria-label="World Financial Centers Local Time">
+        <div class="clock-item" title="Coordinated Universal Time">
+          <span class="clock-label">UTC:</span>
+          <span class="clock-val" id="clockUtc">--:--:--</span>
+        </div>
+        <div class="clock-item" title="New York Market (EST/EDT)">
+          <span class="clock-label">NYC:</span>
+          <span class="clock-val" id="clockNy">--:--:--</span>
+        </div>
+        <div class="clock-item" title="London Market (GMT/BST)">
+          <span class="clock-label">LON:</span>
+          <span class="clock-val" id="clockLondon">--:--:--</span>
+        </div>
+        <div class="clock-item" title="Tokyo Market (JST)">
+          <span class="clock-label">TYO:</span>
+          <span class="clock-val" id="clockTokyo">--:--:--</span>
+        </div>
+        <div class="clock-item" title="Your Local Time">
+          <span class="clock-label">LOCAL:</span>
+          <span class="clock-val" id="clockLocal">--:--:--</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <!-- Icon updated dynamically via JS -->
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Body Content -->
+  <main class="main-content">
+
+    <!-- Market Overview Metrics Strip -->
+    <section class="market-overview-strip" aria-label="Market Overview Summary">
+      <div class="metric-card">
+        <span class="metric-label">Global Exchanges</span>
+        <div class="metric-value-row">
+          <span class="metric-number" id="metricTotalMarkets">--</span>
+          <span class="metric-note">Major Indices</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <span class="metric-label">Markets Open Now</span>
+        <div class="metric-value-row">
+          <span class="metric-number text-up" id="metricOpenMarkets">--</span>
+          <span class="metric-note">Active Sessions</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <span class="metric-label">Advancing / Declining</span>
+        <div class="metric-value-row">
+          <span class="metric-number"><span class="trend-up" id="metricGainers">--</span> / <span class="trend-down" id="metricLosers">--</span></span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <span class="metric-label">Market Sentiment</span>
+        <div class="metric-value-row">
+          <span class="metric-number" id="metricSentiment">Neutral</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter, Search and View Controls Toolbar -->
+    <section class="toolbar-panel" aria-label="Market Filters and Controls">
+      <div class="toolbar-primary">
+        
+        <!-- Region Filter Pills -->
+        <div class="region-tabs" role="tablist">
+          <button class="region-tab active" data-region="all" role="tab" aria-selected="true">
+            All Markets
+          </button>
+          <button class="region-tab" data-region="Americas" role="tab" aria-selected="false">
+            Americas
+          </button>
+          <button class="region-tab" data-region="Europe" role="tab" aria-selected="false">
+            Europe
+          </button>
+          <button class="region-tab" data-region="Asia-Pacific" role="tab" aria-selected="false">
+            Asia-Pacific
+          </button>
+          <button class="region-tab" data-region="Middle East & Africa" role="tab" aria-selected="false">
+            Middle East
+          </button>
+          <button class="region-tab" data-region="watchlist" role="tab" aria-selected="false">
+            ★ Watchlist
+            <span class="tab-badge" id="watchlistBadge" style="display: none;">0</span>
+          </button>
+        </div>
+
+        <!-- Search & Control Dropdowns -->
+        <div class="toolbar-controls-right">
+          <!-- Search Box -->
+          <div class="search-wrapper">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="marketSearchInput" class="search-input" placeholder="Search exchange, index, country... (Press /)" autocomplete="off">
+            <button id="clearSearchBtn" class="clear-search-btn" aria-label="Clear Search" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Currency Selector -->
+          <div>
+            <select id="currencySelect" class="custom-select" aria-label="Select Currency">
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="CNY">CNY (¥)</option>
+              <option value="CAD">CAD (CA$)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="CHF">CHF (CHF)</option>
+            </select>
+          </div>
+
+          <!-- Sort Select -->
+          <div>
+            <select id="sortSelect" class="custom-select" aria-label="Sort Exchanges">
+              <option value="marketCap">Sort: Market Cap</option>
+              <option value="gainers">Sort: Top Gainers</option>
+              <option value="losers">Sort: Top Losers</option>
+              <option value="price">Sort: Price High-Low</option>
+              <option value="name">Sort: Alphabetical</option>
+            </select>
+          </div>
+
+          <!-- View Mode Toggle -->
+          <div class="view-switch" role="group" aria-label="View Mode">
+            <button id="viewGridBtn" class="view-btn active" title="Grid View" aria-label="Grid View">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </button>
+            <button id="viewTableBtn" class="view-btn" title="Table View" aria-label="Table View">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="toolbar-secondary">
+        <div class="results-meta">
+          <span id="resultsCount">-- Markets</span>
+          <span>•</span>
+          <span>Click any exchange card for full interactive technical chart</span>
+        </div>
+        <div class="live-status-pill">
+          <span class="live-pulse"></span>
+          <span>Auto-refresh active</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exchanges Output Display -->
+    <section aria-label="Stock Exchange Listings">
+      <!-- Grid View (Default) -->
+      <div id="exchangesContainer" class="exchanges-grid">
+        <!-- Exchange Cards dynamically generated via JavaScript -->
+      </div>
+
+      <!-- Table View (Optional) -->
+      <div id="exchangesTableContainer" style="display: none;">
+        <!-- Table dynamically generated via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Breaking Announcements & Country Disclosures Section -->
+    <!-- As requested: "Whenever is announced anywhere in the country, it should appear on my website. For now, keep the News section blank." -->
+    <section class="announcements-section" id="announcementsSection" aria-label="National and Global Exchange Announcements">
+      <div class="section-header-row">
+        <div class="section-title-wrap">
+          <h2 class="section-title">National & Global Exchange Announcements</h2>
+          <span class="announcement-count-badge" id="announcementCountBadge" style="display: none;">0</span>
+        </div>
+        
+        <!-- Subtle testing controls for adding/clearing announcements -->
+        <div class="announcements-actions">
+          <button class="btn-subtle" onclick="simulateTestAnnouncement()" title="Test how live country announcements render">
+            <span>+</span> Simulate Announcement
+          </button>
+          <button class="btn-subtle" onclick="clearAnnouncements()" title="Clear announcements and restore blank state">
+            Clear (Keep Blank)
+          </button>
+        </div>
+      </div>
+      <p class="section-subtitle">
+        Official regulatory bulletins, circuit breaker triggers, corporate disclosures, and country-wide exchange announcements.
+      </p>
+
+      <!-- Blank / Empty Feed by default as requested -->
+      <div class="announcements-feed" id="announcementsFeed">
+        <!-- Rendered via JavaScript: clean minimalist empty state by default -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Stock Detail Modal -->
+  <div id="exchangeModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalIndexName">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-row">
+          <span class="modal-flag" id="modalFlag">🇺🇸</span>
+          <div>
+            <h2 class="modal-index-name" id="modalIndexName">S&P 500</h2>
+            <div class="modal-sub" id="modalSubTitle">New York Stock Exchange • United States</div>
+          </div>
+        </div>
+        <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Price Strip & Timeframe -->
+        <div class="modal-price-strip">
+          <div>
+            <div class="modal-price" id="modalPrice">5,983.99</div>
+            <div class="modal-price-change trend-up" id="modalChange">
+              <span>▲</span>
+              <span>+34.82</span>
+              <span>(+0.59%)</span>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div id="modalStatusBadge" class="status-badge status-emerald">
+              <span class="status-dot"></span>
+              <span>Market Open</span>
+            </div>
+
+            <!-- Timeframe Selector -->
+            <div class="timeframe-selector" role="group" aria-label="Chart Timeframe">
+              <button class="tf-btn active" data-tf="1D">1D</button>
+              <button class="tf-btn" data-tf="5D">5D</button>
+              <button class="tf-btn" data-tf="1M">1M</button>
+              <button class="tf-btn" data-tf="1Y">1Y</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Canvas Chart Area -->
+        <div class="modal-chart-area">
+          <canvas id="modalCanvasChart"></canvas>
+          <div id="chartTooltip" class="chart-tooltip"></div>
+        </div>
+
+        <!-- Day's Range Visual Bar -->
+        <div class="modal-range-section">
+          <div class="range-label-row">
+            <span>Day's Low: <strong id="statDayLow">--</strong></span>
+            <span>Day's Range</span>
+            <span>Day's High: <strong id="statDayHigh">--</strong></span>
+          </div>
+          <div class="range-track">
+            <div class="range-indicator" id="modalDayRangeIndicator"></div>
+          </div>
+        </div>
+
+        <!-- Comprehensive Key Statistics Grid -->
+        <div class="modal-stats-grid">
+          <div class="stat-item">
+            <div class="stat-label">Previous Close</div>
+            <div class="stat-val" id="statPrevClose">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Trading Volume</div>
+            <div class="stat-val" id="statVolume">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Market Capitalization</div>
+            <div class="stat-val" id="statMarketCap">--</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Base Currency</div>
+            <div class="stat-val" id="statCurrency">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalBackdrop" class="modal-backdrop-click-target"></div>
+  </div>
+
+  <!-- Minimalist Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">GlobeStock Market Portal</div>
+        <p class="footer-disclaimer">
+          Market data is aggregated across international stock exchanges and updated at daily and real-time intervals.
+          Designed for institutional transparency, investor awareness, and nationwide announcement distribution.
+        </p>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 GlobeStock Hub. All Rights Reserved.</div>
+        <div>Clean • Minimalist • Fully Responsive</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

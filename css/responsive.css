@@ -1,0 +1,205 @@
+/* ==========================================================================
+   GLOBAL STOCK EXCHANGE - RESPONSIVE STYLESHEET
+   Breakpoints: 1200px, 992px, 768px, 480px
+   ========================================================================== */
+
+/* Large Screens & Desktop Refinements */
+@media (max-width: 1200px) {
+  .world-clocks {
+    display: none;
+  }
+}
+
+/* Tablet Landscape & Below */
+@media (max-width: 992px) {
+  .main-content {
+    padding: 18px 16px;
+    gap: 22px;
+  }
+
+  .header-container {
+    padding: 10px 16px;
+  }
+
+  .hide-tablet {
+    display: none !important;
+  }
+
+  .toolbar-primary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .region-tabs {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .toolbar-controls-right {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .search-wrapper {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .modal-dialog {
+    max-width: 92vw;
+  }
+
+  .modal-chart-area {
+    height: 240px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 14px 12px;
+    gap: 18px;
+  }
+
+  .header-container {
+    padding: 10px 12px;
+  }
+
+  .brand-text p {
+    display: none;
+  }
+
+  .ticker-badge-lead {
+    padding: 0 10px;
+    font-size: 0.7rem;
+  }
+
+  .market-overview-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .metric-card {
+    padding: 12px 14px;
+  }
+
+  .metric-number {
+    font-size: 1.25rem;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .toolbar-panel {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .toolbar-controls-right {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .toolbar-controls-right > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .custom-select {
+    flex: 1;
+  }
+
+  .exchanges-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .exchange-card {
+    padding: 16px;
+  }
+
+  .card-price {
+    font-size: 1.3rem;
+  }
+
+  .card-sparkline {
+    width: 90px;
+    height: 32px;
+  }
+
+  /* Modal Mobile */
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+  .modal-dialog {
+    max-width: 100%;
+    max-height: 94vh;
+  }
+
+  .modal-header {
+    padding: 16px 18px 14px;
+  }
+
+  .modal-flag {
+    font-size: 1.8rem;
+  }
+
+  .modal-index-name {
+    font-size: 1.2rem;
+  }
+
+  .modal-body {
+    padding: 16px 18px;
+    gap: 18px;
+  }
+
+  .modal-price {
+    font-size: 1.6rem;
+  }
+
+  .modal-chart-area {
+    height: 200px;
+  }
+
+  .modal-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  /* Announcements Mobile */
+  .announcements-feed {
+    padding: 20px 14px;
+  }
+
+  .announcement-item {
+    padding: 14px 12px;
+  }
+
+  .section-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Extra Small Phones */
+@media (max-width: 480px) {
+  .market-overview-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-text h1 {
+    font-size: 1.05rem;
+  }
+
+  .modal-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
